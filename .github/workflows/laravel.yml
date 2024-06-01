@@ -34,4 +34,4 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: php artisan test
     - name: Deploy to easypanel
-      run: curl http://${{EASYPANEL_HOST}}/api/deploy/${{EASYPANEL_DEPLOY_KEY}}
+      run: curl http://${{secrets.EASYPANEL_HOST}}/api/deploy/${{secrets.EASYPANEL_DEPLOY_KEY}}
