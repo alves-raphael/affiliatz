@@ -29,6 +29,12 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
         php artisan migrate
+    - name: Save Laravel Log File
+      if: ${{ failure() }}  # Save logs only if previous steps failed
+      uses: actions/upload-artifact@v2
+      with:
+        name: laravel-logs
+        path: storage/logs/*.log
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       env:
         DB_CONNECTION: sqlite
