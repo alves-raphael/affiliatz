@@ -29,16 +29,16 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
         php artisan migrate
-    - name: Save Laravel Log File
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: laravel-logs
-        path: storage/logs/laravel.log
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: php artisan test
+    - name: Save Laravel Log File
+      if: ${{ failure() }}  # Save logs only if previous steps failed()
+      uses: actions/upload-artifact@v2
+      with:
+        name: laravel-logs
+        path: storage/logs/laravel.log
     - name: Deploy to easypanel
       run: curl http://${{secrets.EASYPANEL_HOST}}/api/deploy/${{secrets.EASYPANEL_DEPLOY_KEY}}
