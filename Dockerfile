@@ -9,9 +9,10 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libxml2-dev \
     nodejs \
-    npm
+    npm \
+    chromium
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql session xml zip iconv simplexml pcntl gd fileinfo
+RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql session xml zip iconv simplexml pcntl gd fileinfo sockets
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -32,7 +33,7 @@ EXPOSE 80
 RUN chown -R www-data:www-data /var/www/html/storage
 
 ENV APP_NAME Affiliatz
-ENV APP_ENV production
+ENV APP_ENV local
 ENV APP_DEBUG false
 ENV APP_TIMEZONE UTC
 ENV APP_URL http://localhost
